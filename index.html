@@ -78,21 +78,20 @@ h1 {
 
 .center-controls{
   display:flex;
-  gap:6px;
+  gap:8px;
   align-items:center;
   flex-wrap:wrap;
   justify-content:center;
   flex:1;
 }
 
-/* logout always right end */
 .logout-btn{
   position:static;
   background:#dc2626;
   color:white;
   border:none;
-  padding:6px 12px;
-  border-radius:6px;
+  padding:8px 14px;
+  border-radius:8px;
   cursor:pointer;
   flex-shrink:0;
 }
@@ -301,36 +300,57 @@ input[type="checkbox"] {
   .date-bar{
     flex-direction:column;
     align-items:stretch;
+    gap:10px;
   }
 
   .center-controls{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
     gap:8px;
     width:100%;
   }
 
-  .center-controls input{
-    width:100%;
-    box-sizing:border-box;
+  .center-controls input[type="date"]{
+    width:135px;
+    min-width:135px;
+    max-width:135px;
+    padding:10px 12px;
     margin:0;
+    border:none;
+    border-radius:999px;
+    background:#e5e7eb;
+    text-align:center;
+    font-size:14px;
+    box-sizing:border-box;
   }
 
   .center-controls button{
-    width:100%;
-    box-sizing:border-box;
     margin:0;
   }
 
-  .center-controls > :nth-child(1),
-  .center-controls > :nth-child(2),
-  .center-controls > :nth-child(4){
-    grid-column:1 / -1;
+  .center-controls button:nth-of-type(1){
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:14px;
+  }
+
+  .center-controls button:nth-of-type(2){
+    display:block;
+    margin:8px auto 0 auto;
+    padding:10px 18px;
+    border-radius:10px;
+    background:#f1f5f9 !important;
+    color:#065f46 !important;
+    width:auto;
   }
 
   .logout-btn{
     width:100%;
     margin:0;
+    padding:10px 16px;
+    border-radius:10px;
   }
 }
 
@@ -394,14 +414,18 @@ input[type="checkbox"] {
 
   <!-- CENTER PART -->
   <div class="center-controls">
-    From: <input type="date" id="startDate">
-    To: <input type="date" id="endDate">
-    <button onclick="generateTable()">Apply</button>
+  <label for="startDate">From:</label>
+  <input type="date" id="startDate">
 
-    <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
-      Edit Routine
-    </button>
-  </div>
+  <label for="endDate">To:</label>
+  <input type="date" id="endDate">
+
+  <button onclick="generateTable()">Apply</button>
+
+  <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
+    Edit Routine
+  </button>
+</div>
 
   <!-- RIGHT LOGOUT -->
   <button onclick="logoutUser()" class="logout-btn">Logout</button>
