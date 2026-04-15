@@ -85,7 +85,6 @@ h1 {
   flex:1;
 }
 
-/* logout always right end */
 .logout-btn{
   position:static;
   background:#dc2626;
@@ -299,7 +298,8 @@ input[type="checkbox"] {
 
 @media (max-width: 600px){
   .date-bar{
-    display:block;
+    flex-direction:column;
+    align-items:stretch;
   }
 
   .center-controls{
@@ -309,24 +309,27 @@ input[type="checkbox"] {
     width:100%;
   }
 
-  .center-controls label{
-    grid-column:1 / -1;
+  .center-controls input{
+    width:100%;
+    box-sizing:border-box;
     margin:0;
-    font-size:14px;
-    color:#065f46;
   }
 
-  .center-controls input,
   .center-controls button{
     width:100%;
     box-sizing:border-box;
     margin:0;
   }
 
+  .center-controls > :nth-child(1),
   .center-controls > :nth-child(2),
-  .center-controls > :nth-child(4),
-  .center-controls > :nth-child(7){
+  .center-controls > :nth-child(4){
     grid-column:1 / -1;
+  }
+
+  .logout-btn{
+    width:100%;
+    margin:0;
   }
 }
 
@@ -387,20 +390,21 @@ input[type="checkbox"] {
 </div>
 
 <div class="date-bar">
+
+  <!-- CENTER PART -->
   <div class="center-controls">
-    <label>From:</label>
-    <input type="date" id="startDate">
-
-    <label>To:</label>
-    <input type="date" id="endDate">
-
+    From: <input type="date" id="startDate">
+    To: <input type="date" id="endDate">
     <button onclick="generateTable()">Apply</button>
-    <button onclick="logoutUser()" class="logout-btn">Logout</button>
 
     <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
       Edit Routine
     </button>
   </div>
+
+  <!-- RIGHT LOGOUT -->
+  <button onclick="logoutUser()" class="logout-btn">Logout</button>
+
 </div>
 
 
@@ -420,7 +424,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/fireba
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
