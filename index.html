@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+  <title>Islamic Routine Tracker</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Islamic Routine Tracker">
+<meta property="og:description" content="Track your daily Islamic habits بسهولة 📊">
+
+<meta property="og:image" content="https://raw.githubusercontent.com/noordeen2470-prog/islamtracker/003de2be0154af1efeb7f6cd39329ad1f168f0a9/preview.png">
+<meta property="og:url" content="https://noordeen2470-prog.github.io/islamictraker2/">
+<meta property="og:type" content="website">
+
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  padding: 10px;
+  background: #ffffff;
+  color: #111;
+}
+
+
+h1 {
+  text-align: center;
+  color: #15803d;
+  position: sticky;
+  top: 0;
+
+  /* ✅ IMAGE + FADE EFFECT */
+  background: 
+    linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+    url("https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200");
+
+  background-size: cover;
+  background-position: center;
+
+  z-index: 100;
+  padding: 10px;
+  margin: 0;
+  font-size: 18px;
+}
+
+/* ✅ PROGRESS BAR STYLE */
+.progress-container {
+  margin: 10px 0;
+}
+.progress-bg {
+  background:#e5e7eb;
+  border-radius:10px;
+  overflow:hidden;
+  height:14px;
+}
+.progress-fill {
+  height:100%;
+  width:0%;
+  background:#16a34a;
+  transition: width 0.5s ease-in-out;
+}
+.progress-text {
+  text-align:center;
+  font-size:13px;
+  margin-top:5px;
+  color:#065f46;
+}
+
+.date-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:10px 0;
+  flex-wrap:wrap;
+}
+
+.center-controls{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+  flex:1;
+}
+
+/* logout always right end */
+.logout-btn{
+  position:static;
+  background:#dc2626;
+  color:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+input, button {
+  padding: 6px;
+  margin: 5px;
+  font-size: 14px;
+}
+
+button {
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.table-container {
+  width: 100%;
+  height: 75vh;
+  overflow: auto;
+  border: 1px solid #ccc;
+  -webkit-overflow-scrolling: touch;
+
+  /* 🕌 FULL IMAGE + LIGHT MERGE */
+  background:
+    linear-gradient(rgba(255,255,255,0.98), rgba(255,255,255,0.90)),
+    url("https://raw.githubusercontent.com/noordeen2470-prog/islamtracker/003de2be0154af1efeb7f6cd39329ad1f168f0a9/preview.png");
+
+  background-size: cover;
+
+  /* 👇 IMPORTANT FOR FULL HEIGHT FEEL */
+  background-repeat: no-repeat;
+  background-position: top center;
+
+  border-radius: 10px;
+}
+table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+  background: transparent;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 12px;
+  text-align: center;
+}
+
+th {
+  background: #dcfce7;
+  color: #065f46;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+td:first-child, th:first-child {
+  position: sticky;
+  left: 0;
+  background: #f9fafb;
+  z-index: 3;
+  text-align: left;
+  font-weight: bold;
+
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+
+  min-width: 320px;
+  max-width: 420px;
+}
+
+th:first-child {
+  z-index: 4;
+  background: #dcfce7;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #16a34a;
+  cursor: pointer;
+}
+
+.footer {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 13px;
+  color: #065f46;
+  font-style: italic;
+}
+
+.google-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  background:white;
+  color:#333;
+
+  border:1px solid #ddd;
+  border-radius:10px;
+
+  padding:10px 16px;
+
+  font-weight:bold;
+  cursor:pointer;
+
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+
+  transition:0.3s;
+}
+
+.google-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.login-overlay{
+  position:fixed;
+  inset:0;
+
+  /* ✨ LIGHT DSLR-STYLE BLUR */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* ❌ REMOVE strong white */
+  background: rgba(255,255,255,0.08);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;
+}
+
+.login-box{
+  background: rgba(255,255,255,0.92);
+  padding:35px;
+  border-radius:25px;
+  text-align:center;
+  width:340px;
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.15);
+}
+
+.login-box img{
+  width:60px;
+  margin-bottom:15px;
+}
+
+.login-box h2{
+  color:#15803d;
+  margin-bottom:10px;
+}
+
+.login-box p{
+  color:#555;
+  margin-bottom:20px;
+}
+
+.overlay-google-btn{
+  width:100%;
+  background:#16a34a;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.google-btn img{
+  width:20px;
+  height:20px;
+}
+
+.disabled-day {
+  background: #f3f4f6 !important;
+  opacity: 0.5;
+}
+
+.friday-special {
+  background: #dcfce7 !important;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 15px; }
+
+  th, td {
+    font-size: 11px;
+    padding: 6px;
+  }
+
+  td:first-child, th:first-child {
+    min-width: 220px;
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 600px){
+  .date-bar{
+    display:block;
+  }
+
+  .center-controls{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+
+  .center-controls label{
+    grid-column:1 / -1;
+    margin:0;
+    font-size:14px;
+    color:#065f46;
+  }
+
+  .center-controls input,
+  .center-controls button{
+    width:100%;
+    box-sizing:border-box;
+    margin:0;
+  }
+
+  .center-controls > :nth-child(2),
+  .center-controls > :nth-child(4),
+  .center-controls > :nth-child(7){
+    grid-column:1 / -1;
+  }
+}
+
+</style>
+</head>
+
+<body>
+  
+  <div id="loadingScreen" style="
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:white;
+  z-index:9999;
+  font-size:18px;
+  color:#15803d;
+">
+  📊 Loading Islamic Routine Tracker...
+</div>
+
+<div id="loginOverlay" class="login-overlay" style="display:none;">
+  <div class="login-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+    <h2>Welcome Back</h2>
+    <p>Login to continue your Islamic journey</p>
+
+    <button onclick="loginUser()" class="overlay-google-btn">
+      Continue with Google
+    </button>
+  </div>
+</div>
+<div id="mainApp" style="display:none;">
+
+<h1>
+📊 Islamic Routine Tracker<br>
+<span id="dateRange"></span>
+</h1>
+
+<!-- ✅ PROGRESS BAR UI -->
+<div class="progress-container">
+  <div class="progress-bg">
+    <div id="progressFill" class="progress-fill"></div>
+  </div>
+  <div id="progressText" class="progress-text">0% Completed</div>
+</div>
+
+<!-- EDIT PANEL -->
+ <div id="editorPanel" style="display:none; padding:10px;">
+  
+  <input id="titleEditor" placeholder="Edit Title"
+  style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;font-size:15px;">
+
+  <textarea id="habitEditor" style="width:100%;height:250px;border-radius:10px;padding:12px;font-size:15px;"></textarea><br><br>
+  
+  <button onclick="saveEditedHabits()">Save</button>
+</div>
+
+<div class="date-bar">
+  <div class="center-controls">
+    <label>From:</label>
+    <input type="date" id="startDate">
+
+    <label>To:</label>
+    <input type="date" id="endDate">
+
+    <button onclick="generateTable()">Apply</button>
+    <button onclick="logoutUser()" class="logout-btn">Logout</button>
+
+    <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
+      Edit Routine
+    </button>
+  </div>
+</div>
+
+
+
+<div class="table-container">
+  <table id="trackerTable"></table>
+</div>
+
+<div class="footer">
+“The most beloved deeds to Allah are those that are consistent, even if small.”
+</div>
+
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCNTpriuK_d-yO83Q9LsWQIlUnZQ5t8gyA",
+  authDomain: "islamic-routine-tracker.firebaseapp.com",
+  projectId: "islamic-routine-tracker",
+  storageBucket: "islamic-routine-tracker.firebasestorage.app",
+  messagingSenderId: "200163329134",
+  appId: "1:200163329134:web:6602420d0412df557d927f",
+  measurementId: "G-17XG9CPFP2"
+};
+
+const app = initializeApp(firebaseConfig);
+// getAnalytics(app);
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
+
+window.currentUser = null;
+window.cloudChecks = {};
+window.unsubscribeTracker = null;
+
+function getTrackerRef(uid) {
+  return doc(db, "users", uid, "tracker", "main");
+}
+
+window.loginUser = function () {
+  signInWithPopup(auth, provider).catch(error => {
+    alert(error.message);
+  });
+};
+
+window.logoutUser = function () {
+  signOut(auth).catch(error => {
+    alert(error.message);
+  });
+};
+
+async function createUserDocIfMissing(uid) {
+  const ref = getTrackerRef(uid);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    await setDoc(ref, {
+      routineTitle: window.routineTitle || "Routine (WHEN + WHAT)",
+      habits: window.habits || [],
+      checks: {}
+    });
+  }
+}
+
+function startTrackerSync(uid) {
+  const ref = getTrackerRef(uid);
+
+  if (window.unsubscribeTracker) {
+    window.unsubscribeTracker();
+  }
+
+  window.unsubscribeTracker = onSnapshot(ref, (snap) => {
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    window.cloudChecks = data.checks || {};
+    window.habits = Array.isArray(data.habits) && data.habits.length
+      ? data.habits
+      : window.habits;
+
+    window.routineTitle = data.routineTitle || "Routine (WHEN + WHAT)";
+
+    generateTable();
+  });
+}
+
+window.saveCheck = async function (dateKey, habitIndex, value) {
+  if (!window.currentUser) return;
+
+  const key = dateKey + "_" + habitIndex;
+
+  try {
+    await setDoc(
+      doc(db, "users", window.currentUser.uid, "tracker", "main"),
+      {
+        checks: {
+          [key]: value
+        }
+      },
+      { merge: true }
+    );
+  } catch (error) {
+    alert("Could not save checkbox");
+    console.error(error);
+  }
+};
+
+window.saveEditedHabits = async function () {
+  const text = document.getElementById("habitEditor").value;
+  const newTitle = document.getElementById("titleEditor").value;
+
+  window.habits = text.split("\n").filter(h => h.trim() !== "");
+  window.routineTitle = newTitle || "Routine (WHEN + WHAT)";
+
+  if (window.currentUser) {
+    try {
+      await setDoc(
+        getTrackerRef(window.currentUser.uid),
+        {
+          habits: window.habits,
+          routineTitle: window.routineTitle
+        },
+        { merge: true }
+      );
+    } catch (error) {
+      alert("Could not save routine");
+      console.error(error);
+      return;
+    }
+  }
+
+  generateTable();
+  document.getElementById("editorPanel").style.display = "none";
+};
+
+onAuthStateChanged(auth, async (user) => {
+  // hide loading always first
+  document.getElementById("loadingScreen").style.display = "none";
+
+  if (user) {
+    window.currentUser = user;
+
+    document.getElementById("loginOverlay").style.display = "none";
+    document.getElementById("mainApp").style.display = "block";
+
+    setDefaultDates();
+    generateTable();
+
+    await createUserDocIfMissing(user.uid);
+    startTrackerSync(user.uid);
+
+  } else {
+    window.currentUser = null;
+    window.cloudChecks = {};
+
+    if (window.unsubscribeTracker) {
+      window.unsubscribeTracker();
+      window.unsubscribeTracker = null;
+    }
+
+    document.getElementById("loginOverlay").style.display = "flex";
+    document.getElementById("mainApp").style.display = "none";
+  }
+});
+</script>
+
+<script>
+window.habits = JSON.parse(localStorage.getItem("habits")) || [
+
+"Wake up: Alhamdulillahilladhi ahyana ba’da ma amatana wa ilayhin nushur",
+"Fajr (2 Sunnah + 2 Fard)",
+
+"After Fard (Fajr): SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"After Fard (Fajr): La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu, wa huwa ‘ala kulli shay’in qadeer (10x)",
+"After Fard (Fajr): Ayat al-Kursi",
+"After Fard (Fajr): Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"After Fard (Fajr): Allahumma inni as’aluka ‘ilman nafi‘an, wa rizqan tayyiban, wa ‘amalan mutaqabbalan (3x)",
+"After Fard (Fajr): Allahumma inni as’aluka al-jannata wa a’uthu bika minan nar (3x)",
+
+"Dhuhr (2 Sunnah + 2 Sunnah + 4 Fard + 2 Sunnah)",
+"Jumu’ah: 2 Tahiyyatul Masjid + Khutbah + 2 Fard + Sunnah after (2 rakkats home / 2+2 rakkats masjid)",
+
+"After Fard (Dhuhr): SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"After Fard (Dhuhr): La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu, wa huwa ‘ala kulli shay’in qadeer (1x)",
+"After Fard (Dhuhr): Ayat al-Kursi",
+"After Fard (Dhuhr): Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"After Fard (Dhuhr): Allahumma inni as’aluka al-jannata wa a’uthu bika minan nar (3x)",
+
+"Asr (4 Fard)",
+
+"After Fard (Asr): SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"After Fard (Asr): La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu, wa huwa ‘ala kulli shay’in qadeer (1x)",
+"After Fard (Asr): Ayat al-Kursi",
+"After Fard (Asr): Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"After Fard (Asr): Allahumma inni as’aluka al-jannata wa a’uthu bika minan nar (3x)",
+
+"Maghrib (3 Fard + 2 Sunnah)",
+
+"After Fard (Maghrib): SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"After Fard (Maghrib): La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu, wa huwa ‘ala kulli shay’in qadeer (10x)",
+"After Fard (Maghrib): Ayat al-Kursi",
+"After Fard (Maghrib): Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"After Fard (Magrib): Allahumma inni as’aluka al-jannata wa a’uthu bika minan nar (3x)",
+
+"Isha (4 Fard + 2 Sunnah + Witr)",
+
+"After Fard (Isha): SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"After Fard (Isha): La ilaha illallahu wahdahu la sharika lahu, lahul mulku wa lahul hamdu, wa huwa ‘ala kulli shay’in qadeer (1x)",
+"After Fard (Isha): Ayat al-Kursi",
+"After Fard (Isha): Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"After Fard (Isha): Allahumma inni as’aluka al-jannata wa a’uthu bika minan nar (3x)",
+
+"Before Sleep: Do Wudu",
+"Before Sleep: Cup your hands together and blow into them after reciting Surah Al-Ikhlas, Surah Al-Falaq, and Surah An-Nas, then wipe your hands over your body. Repeat 3 times",
+"Before Sleep: Ayat al-Kursi",
+"Before Sleep: Surah Al-Kafirun",
+"Before Sleep: Surah Al-Mulk",
+"Before Sleep: Last 2 verses of Surah Al-Baqarah",
+"Before Sleep: SubhanAllah 33 / Alhamdulillah 33 / Allahu Akbar 34",
+"Before Sleep: Allahumma aslamtu nafsi ilayka, wa fawwadtu amri ilayka, wa wajjahtu wajhi ilayka, wa alja’tu zahri ilayka, raghbatan wa rahbatan ilayka, la malja’a wa la manja minka illa ilayka, amantu bikitabika allathee anzalta, wa binabiyyika allathee arsalta",
+"Before Sleep: Allahumma a‘inni ‘ala dhikrika wa shukrika wa husni ‘ibadatika",
+"Before Sleep: Allahumma bismika amutu wa ahya",
+
+"Sleep on right side",
+"Pray Istikhara (2 rak'ah) for guidance (compulsory daily)",
+"Friday: Surah Al-Kahf (reminder)"
+];
+
+window.routineTitle = localStorage.getItem("routineTitle") || "Routine (WHEN + WHAT)";
+
+function loadCheck(dateKey, habitIndex) {
+  const key = dateKey + "_" + habitIndex;
+  return window.cloudChecks && window.cloudChecks[key] === true;
+}
+
+function updateProgress() {
+  const checkboxes = document.querySelectorAll("input[type='checkbox']");
+  let total = 0;
+  let checked = 0;
+
+  checkboxes.forEach(cb => {
+    if (!cb.disabled) {
+      total++;
+      if (cb.checked) checked++;
+    }
+  });
+
+  const percent = total ? Math.round((checked / total) * 100) : 0;
+  document.getElementById("progressFill").style.width = percent + "%";
+  document.getElementById("progressText").innerText = percent + "% Completed";
+}
+
+function generateTable() {
+  const table = document.getElementById("trackerTable");
+  table.innerHTML = "";
+
+  const startInput = document.getElementById("startDate").value;
+  const endInput = document.getElementById("endDate").value;
+
+  const start = new Date(startInput);
+  const end = new Date(endInput);
+
+  if (!startInput || !endInput || start > end) {
+    table.innerHTML = "<tr><th>Please select valid dates</th></tr>";
+    return;
+  }
+
+  localStorage.setItem("startDate", startInput);
+  localStorage.setItem("endDate", endInput);
+
+  let days = [];
+  let temp = new Date(start);
+
+  while (temp <= end) {
+    days.push(new Date(temp));
+    temp.setDate(temp.getDate() + 1);
+  }
+
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  document.getElementById("dateRange").innerText =
+    start.toLocaleDateString("en-GB", options) + " – " +
+    end.toLocaleDateString("en-GB", options);
+
+  let header = "<tr><th>" + window.routineTitle + "</th>";
+
+  days.forEach(d => {
+    if (d.getDate() === 1) {
+      header += "<th>" + d.getDate() + " " + d.toLocaleString("default", { month: "short" }) + "</th>";
+    } else {
+      header += "<th>" + d.getDate() + "</th>";
+    }
+  });
+
+  header += "</tr>";
+  table.innerHTML += header;
+
+  window.habits.forEach((habit, habitIndex) => {
+    let text = habit.toLowerCase();
+    let isJummah = text.includes("jumu");
+    let isKahf = text.includes("kahf");
+    let isDhuhrMain = text.includes("dhuhr (") && !text.includes("after");
+
+    let row = "<tr><td>" + habit + "</td>";
+
+    days.forEach((d) => {
+      const isFriday = d.getDay() === 5;
+
+      let dateKey = d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+
+      let checked = loadCheck(dateKey, habitIndex) ? "checked" : "";
+
+      if (
+        (!isFriday && (isJummah || isKahf)) ||
+        (isFriday && isDhuhrMain)
+      ) {
+        row += `<td class="disabled-day"><input type="checkbox" disabled></td>`;
+        return;
+      }
+
+      let highlight = (isFriday && (isJummah || isKahf)) ? "friday-special" : "";
+
+      row += `<td class="${highlight}">
+        <input type="checkbox" ${checked}
+        onchange="saveCheck('${dateKey}', ${habitIndex}, this.checked); updateProgress();">
+      </td>`;
+    });
+
+    row += "</tr>";
+    table.innerHTML += row;
+  });
+
+  updateProgress();
+}
+
+window.onload = function() {
+  setDefaultDates();
+};
+
+function setDefaultDates() {
+  let savedStart = localStorage.getItem("startDate") || "2026-04-09";
+  let savedEnd = localStorage.getItem("endDate") || "2026-05-09";
+
+  document.getElementById("startDate").value = savedStart;
+  document.getElementById("endDate").value = savedEnd;
+}
+
+function toggleEditor() {
+  const panel = document.getElementById("editorPanel");
+
+  if (panel.style.display === "none") {
+    panel.style.display = "block";
+    document.getElementById("habitEditor").value = window.habits.join("\n");
+    document.getElementById("titleEditor").value = window.routineTitle;
+  } else {
+    panel.style.display = "none";
+  }
+}
+</script>
+</div>
+</body>
+</html>
