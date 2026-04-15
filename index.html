@@ -304,21 +304,18 @@ input[type="checkbox"] {
   }
 
   .center-controls{
-    display:grid;
-    grid-template-columns:auto 1fr auto 1fr auto;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
     align-items:center;
     gap:8px;
     width:100%;
   }
 
-  .center-controls label{
-    margin:0;
-    font-size:14px;
-  }
-
   .center-controls input[type="date"]{
-    width:100%;
-    min-width:0;
+    width:135px;
+    min-width:135px;
+    max-width:135px;
     padding:10px 12px;
     margin:0;
     border:none;
@@ -331,22 +328,18 @@ input[type="checkbox"] {
 
   .center-controls button{
     margin:0;
-    box-sizing:border-box;
   }
 
-  /* Apply button */
   .center-controls button:nth-of-type(1){
-    padding:10px 16px;
+    padding:10px 18px;
     border-radius:10px;
     font-size:14px;
-    width:auto;
   }
 
-  /* Edit Routine button -> last/right */
   .center-controls button:nth-of-type(2){
-    grid-column:5;
-    justify-self:end;
-    padding:10px 16px;
+    display:block;
+    margin:8px auto 0 auto;
+    padding:10px 18px;
     border-radius:10px;
     background:#f1f5f9 !important;
     color:#065f46 !important;
@@ -421,18 +414,14 @@ input[type="checkbox"] {
 
   <!-- CENTER PART -->
   <div class="center-controls">
-  <label for="startDate">From:</label>
-  <input type="date" id="startDate">
+    From: <input type="date" id="startDate">
+    To: <input type="date" id="endDate">
+    <button onclick="generateTable()">Apply</button>
 
-  <label for="endDate">To:</label>
-  <input type="date" id="endDate">
-
-  <button onclick="generateTable()">Apply</button>
-
-  <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
-    Edit Routine
-  </button>
-</div>
+    <button onclick="toggleEditor()" style="background:#f1f5f9;color:#065f46;">
+      Edit Routine
+    </button>
+  </div>
 
   <!-- RIGHT LOGOUT -->
   <button onclick="logoutUser()" class="logout-btn">Logout</button>
